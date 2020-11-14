@@ -9,7 +9,7 @@ public class Grid
 	private final Status s = new Status();
     
     // Constants for number of rows and columns.
-    public static final int NUM_ROWS = 10, NUM_COLS = 10;
+    public static final int NUM_ROWS = 10, NUM_COLS = 10, WINDOW_SIZE = (BattleshipTester.WINDOW_SIZE-100), LOCATION_SPACING = 5;
     
     // Create a new Grid. Initialize each Location in the grid
     // to be a new Location object.
@@ -103,7 +103,30 @@ public class Grid
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					g.fillRect(i*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, j*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_SIZE/NUM_ROWS, BattleshipTester.WINDOW_SIZE/NUM_ROWS);
+					g.fillRect(i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING, WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
+				}
+			}
+		}
+	}
+	
+	public class printShipC extends JPanel {
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			for (int i = 0; i < NUM_ROWS; ++i) {
+				for (int j = 0; j < NUM_COLS; ++j) {
+					if (grid[i][j].hasShip()) {
+						g.setColor(Color.GRAY);
+					} else if (grid[i][j].checkMiss()) {
+						g.setColor(Color.PINK);
+					} else {
+						g.setColor(Color.BLUE);
+					}
+					g.fillRect(i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
+								j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
+								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING,
+								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
 				}
 			}
 		}
@@ -112,6 +135,8 @@ public class Grid
 	public Status getStatus() {
 		return s;
 	}
+	
+	public 
 	
     public void printStatus() {
         // Top Header
