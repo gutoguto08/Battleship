@@ -7,19 +7,28 @@ import javax.swing.JFrame;
 public class BattleshipTester extends JPanel
 {
     public static Scanner in = new Scanner(System.in);
-	public static Player p1 = new Player(), p2 = new Player();
+	private static final Player p1 = new Player(), p2 = new Player();
+	private static final BattleshipTester host = new BattleshipTester();
+	public static final JFrame jf = new JFrame();
 	public static final int WINDOW_SIZE = 400, WINDOW_BUFFER = 35;
 	
-	public static void main(String[] args) {
-		BattleshipTester host = new BattleshipTester();
-		JFrame jf = new JFrame();
+	public static void createWindow() {
 		jf.setTitle("Battleship Game");
-		jf.setSize(WINDOW_SIZE, WINDOW_SIZE);
+		jf.setSize(WINDOW_SIZE*2, WINDOW_SIZE*2);
 		jf.setResizable(false);
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public static void main(String[] args) {
+		
+		createWindow();
+		
+		p1.getGrid().setGridOffsetY(0);
+		p2.getGrid().setGridOffsetY(300);
 		
 		jf.add(p1.getGrid().getStatus());
+		jf.add(p2.getGrid().getStatus());
 		
 		host.run();
 	}
@@ -36,9 +45,8 @@ public class BattleshipTester extends JPanel
         // You will probably need to make additions to the Player class to
         // allow for this setting up and guessing
 		
-        
         introduction();
-        
+		
         computerPlaceShips(p1);
         computerPlaceShips(p2);
         
