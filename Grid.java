@@ -7,9 +7,11 @@ public class Grid
 {
     private final Location[][] grid;
 	private final Status s = new Status();
+	private final ShipStatus ss = new ShipStatus();
     
     // Constants for number of rows and columns.
     public static final int NUM_ROWS = 10, NUM_COLS = 10, WINDOW_SIZE = (BattleshipTester.WINDOW_SIZE-100), LOCATION_SPACING = 5;
+	public int offsetY = 0;
     
     // Create a new Grid. Initialize each Location in the grid
     // to be a new Location object.
@@ -19,7 +21,7 @@ public class Grid
         for (int j = 0; j < NUM_COLS; ++j)
         grid[i][j] = new Location();
     }
-    
+	
     // Mark a hit in this location by calling the markHit method
     // on the Location object.  
     public void markHit(int row, int col) {
@@ -35,6 +37,10 @@ public class Grid
     public void setStatus(int row, int col, int status) {
         grid[row][col].setStatus(status);
     }
+	
+	public void setGridOffsetY(int offset) {
+		offsetY = offset;
+	}
     
     // Get the status of this location in the grid  
     public int getStatus(int row, int col) {
@@ -103,13 +109,17 @@ public class Grid
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					g.fillRect(i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING, WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
+					g.fillRect(j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, 
+								i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY, 
+								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING, 
+								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
 				}
 			}
 		}
 	}
 	
-	public class printShipC extends JPanel {
+	public class ShipStatus extends JPanel {
+		
 		
 		@Override
 		public void paintComponent(Graphics g) {
@@ -123,8 +133,8 @@ public class Grid
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					g.fillRect(i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
-								j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
+					g.fillRect(j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
+								i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY,
 								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING,
 								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
 				}
@@ -133,13 +143,21 @@ public class Grid
 	}
 	
 	public Status getStatus() {
+		s.setLocation(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY);
+		s.setSize(WINDOW_SIZE, WINDOW_SIZE);
 		return s;
 	}
 	
-	public 
+	public ShipStatus getShipStatus() {
+		ss.setLocation(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY);
+		ss.setSize(WINDOW_SIZE, WINDOW_SIZE);
+		return ss;
+	}
 	
     public void printStatus() {
-        // Top Header
+		BattleshipTester.jf.repaint();
+		
+		// Top Header
         System.out.print(" ");
         for (int i = 1; i <= NUM_COLS; ++i) {
             System.out.print(" " + i);
@@ -163,7 +181,9 @@ public class Grid
     }
     
     public void printShips() {
-        // Top Header
+		BattleshipTester.jf.repaint();
+		
+		// Top Header
         System.out.print(" ");
         for (int i = 1; i <= NUM_COLS; ++i) {
             System.out.print(" " + i);
@@ -182,5 +202,5 @@ public class Grid
             }
             System.out.println();
         }
-    }
+	}
 }
