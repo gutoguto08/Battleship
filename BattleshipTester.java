@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
-public class BattleshipTester extends JPanel
-{
+public class BattleshipTester extends JPanel {
+    
     public static Scanner in = new Scanner(System.in);
 	private static final Player p1 = new Player(), p2 = new Player();
-	private static final BattleshipTester host = new BattleshipTester();
 	public static final JFrame jf = new JFrame();
 	public static final int WINDOW_SIZE = 400, WINDOW_BUFFER = 35;
 	
-	public static void createWindow() {
+    private static final BattleshipTester host = new BattleshipTester();
+	
+	public BattleshipTester() {
 		jf.setTitle("Battleship Game");
 		jf.setSize(WINDOW_SIZE*2, WINDOW_SIZE*2);
 		jf.setResizable(false);
@@ -22,15 +23,16 @@ public class BattleshipTester extends JPanel
 	
 	public static void main(String[] args) {
 		
-		createWindow();
-		
 		p1.getGrid().setGridOffsetY(0);
-		p2.getGrid().setGridOffsetY(300);
+		p2.getGrid().setGridOffsetY(p2.getGrid().numRows()*(p2.getGrid().WINDOW_SIZE/p2.getGrid().numRows() + p2.getGrid().LOCATION_SPACING));
 		
 		jf.add(p1.getGrid().getStatus());
 		jf.add(p2.getGrid().getStatus());
 		
-		host.run();
+		//jf.pack();
+		
+		//host.run();
+		while (true);
 	}
     
     public void run()
