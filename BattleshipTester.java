@@ -5,50 +5,39 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 
 public class BattleshipTester extends JPanel {
-    
+	
     public static Scanner in = new Scanner(System.in);
 	private static final Player p1 = new Player(), p2 = new Player();
-	public static final JFrame jf = new JFrame();
-	public static final int WINDOW_SIZE = 400, WINDOW_BUFFER = 35;
 	
-    private static final BattleshipTester host = new BattleshipTester();
+	public static final JFrame frame = new JFrame();
+	public static final int WINDOW_SIZE = 400, WINDOW_BUFFER = 25;
 	
 	public BattleshipTester() {
-		jf.setTitle("Battleship Game");
-		jf.setSize(WINDOW_SIZE*2, WINDOW_SIZE*2);
-		jf.setResizable(false);
-		jf.setVisible(true);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Battleship Game");
+		frame.setSize(WINDOW_SIZE*3, WINDOW_SIZE*3);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
+		final BattleshipTester host = new BattleshipTester();
 		
 		p1.getGrid().setGridOffsetY(0);
-		p2.getGrid().setGridOffsetY(p2.getGrid().numRows()*(p2.getGrid().WINDOW_SIZE/p2.getGrid().numRows() + p2.getGrid().LOCATION_SPACING));
+		p2.getGrid().setGridOffsetY(200);
 		
-		jf.add(p1.getGrid().getStatus());
-		jf.add(p2.getGrid().getStatus());
+		frame.add(p1.getGrid().getDrawShips());
+		frame.add(p1.getGrid().getDrawStatus());
 		
-		//jf.pack();
-		
-		//host.run();
-		while (true);
+		host.run();
 	}
     
     public void run()
     {
-        // Start here! This class should interact with the user
-        // to play the game of Battleship
-        
-        // You only need to allow for the user to set up each player's
-        // ships and for each player to make a guess on the other player's grid
-        // Don't worry about finishing the whole game yet.
-        
-        // You will probably need to make additions to the Player class to
-        // allow for this setting up and guessing
-		
         introduction();
 		
+		//placeShips(p1);
         computerPlaceShips(p1);
         computerPlaceShips(p2);
         
