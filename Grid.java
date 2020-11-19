@@ -3,14 +3,16 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class Grid
-{
+public class Grid {
+	
     private final Location[][] grid;
-	private final Status s = new Status();
-	private final ShipStatus ss = new ShipStatus();
+	private final DrawStatus drawStatus;
+	private final DrawShips drawShips;
     
     // Constants for number of rows and columns.
-    public static final int NUM_ROWS = 10, NUM_COLS = 10, WINDOW_SIZE = (BattleshipTester.WINDOW_SIZE-100), LOCATION_SPACING = 5;
+    public static final int NUM_ROWS = 10, NUM_COLS = 10,
+			LOCATION_SPACING = 10,
+			LOCATION_WIDTH = BattleshipTester.WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING;
 	public int offsetY = 0;
     
     // Create a new Grid. Initialize each Location in the grid
@@ -20,7 +22,20 @@ public class Grid
         for (int i = 0; i < NUM_ROWS; ++i)
         for (int j = 0; j < NUM_COLS; ++j)
         grid[i][j] = new Location();
+		
+		drawStatus = new DrawStatus();
+		drawShips = new DrawShips();
     }
+	
+	public DrawStatus getDrawStatus() {
+		drawStatus.setBounds(BattleshipTester.WINDOW_BUFFER, offsetY, BattleshipTester.WINDOW_SIZE, BattleshipTester.WINDOW_SIZE);
+		return drawStatus;
+	}
+	
+	public DrawShips getDrawShips() {
+		drawShips.setBounds(BattleshipTester.WINDOW_BUFFER, offsetY, BattleshipTester.WINDOW_SIZE, BattleshipTester.WINDOW_SIZE);
+		return drawShips;
+	}
 	
     // Mark a hit in this location by calling the markHit method
     // on the Location object.  
@@ -97,7 +112,32 @@ public class Grid
         return true;
     }
     
-	public class Status extends JPanel {
+	public class DrawStatus extends JPanel {
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			for (int i = 0; i < NUM_ROWS; ++i) {
+				for (int j = 0; j < NUM_COLS; ++j) {
+		
+					if (grid[i][j].hasShip()) {
+						g.setColor(Color.GRAY);
+					} else if (grid[i][j].checkMiss()) {
+						g.setColor(Color.PINK);
+					} else {
+						g.setColor(Color.BLUE);
+					}
+					int x = j*BattleshipTester.WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
+					int y = i*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY;
+					
+					g.fillRect(x, y, LOCATION_WIDTH, LOCATION_WIDTH);
+				}
+			}
+		}
+	}
+	
+	
+	public class DrawShips extends JPanel {
 		
 		@Override
 		public void paintComponent(Graphics g) {
@@ -109,53 +149,16 @@ public class Grid
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					g.fillRect(j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER, 
-								i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY, 
-								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING, 
-								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
+					int x = j*BattleshipTester.WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
+					int y = i*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY;
+					g.fillRect(x, y, LOCATION_WIDTH, LOCATION_WIDTH);
 				}
 			}
 		}
-	}
-	
-	public class ShipStatus extends JPanel {
-		
-		
-		@Override
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			for (int i = 0; i < NUM_ROWS; ++i) {
-				for (int j = 0; j < NUM_COLS; ++j) {
-					if (grid[i][j].hasShip()) {
-						g.setColor(Color.GRAY);
-					} else if (grid[i][j].checkMiss()) {
-						g.setColor(Color.PINK);
-					} else {
-						g.setColor(Color.BLUE);
-					}
-					g.fillRect(j*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER,
-								i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY,
-								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING,
-								WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING);
-				}
-			}
-		}
-	}
-	
-	public Status getStatus() {
-		s.setLocation(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY);
-		s.setSize(WINDOW_SIZE, WINDOW_SIZE);
-		return s;
-	}
-	
-	public ShipStatus getShipStatus() {
-		ss.setLocation(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY);
-		ss.setSize(WINDOW_SIZE, WINDOW_SIZE);
-		return ss;
 	}
 	
     public void printStatus() {
-		BattleshipTester.jf.repaint();
+		BattleshipTester.frame.repaint();
 		
 		// Top Header
         System.out.print(" ");
@@ -181,7 +184,7 @@ public class Grid
     }
     
     public void printShips() {
-		BattleshipTester.jf.repaint();
+		BattleshipTester.frame.repaint();
 		
 		// Top Header
         System.out.print(" ");
