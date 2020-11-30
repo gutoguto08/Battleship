@@ -10,11 +10,11 @@ public class BattleshipTester extends JPanel {
 	private static final Player p1 = new Player(), p2 = new Player();
 	
 	public static final JFrame frame = new JFrame();
-	public static final int WINDOW_SIZE = 400, WINDOW_BUFFER = 25;
-	
+	public static final int WINDOW_SIZE = 750, WINDOW_BUFFER = WINDOW_SIZE/50;
+        
 	public BattleshipTester() {
 		frame.setTitle("Battleship Game");
-		frame.setSize(WINDOW_SIZE*3, WINDOW_SIZE*3);
+		frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
 		frame.setResizable(false);
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,10 +25,10 @@ public class BattleshipTester extends JPanel {
 		final BattleshipTester host = new BattleshipTester();
 		
 		p1.getGrid().setGridOffsetY(0);
-		p2.getGrid().setGridOffsetY(200);
+		p2.getGrid().setGridOffsetY(2*Grid.WINDOW_SIZE-WINDOW_BUFFER*6);
 		
 		frame.add(p1.getGrid().getDrawShips());
-		frame.add(p1.getGrid().getDrawStatus());
+		frame.add(p2.getGrid().getDrawStatus());
 		
 		host.run();
 	}
