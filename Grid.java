@@ -11,9 +11,10 @@ public class Grid {
     
     // Constants for number of rows and columns.
     public static final int NUM_ROWS = 10, NUM_COLS = 10,
-			LOCATION_SPACING = 10,
-			LOCATION_WIDTH = BattleshipTester.WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING;
-	public int offsetY = 0;
+                        WINDOW_SIZE = BattleshipTester.WINDOW_SIZE/3,
+			LOCATION_SPACING = WINDOW_SIZE/NUM_ROWS/5,
+			LOCATION_WIDTH = WINDOW_SIZE/NUM_ROWS-LOCATION_SPACING;
+    public int offsetY = 0;
     
     // Create a new Grid. Initialize each Location in the grid
     // to be a new Location object.
@@ -28,12 +29,12 @@ public class Grid {
     }
 	
 	public DrawStatus getDrawStatus() {
-		drawStatus.setBounds(BattleshipTester.WINDOW_BUFFER, offsetY, BattleshipTester.WINDOW_SIZE, BattleshipTester.WINDOW_SIZE);
+                drawStatus.setBounds(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY, WINDOW_SIZE+BattleshipTester.WINDOW_BUFFER, WINDOW_SIZE+BattleshipTester.WINDOW_BUFFER);
 		return drawStatus;
 	}
 	
 	public DrawShips getDrawShips() {
-		drawShips.setBounds(BattleshipTester.WINDOW_BUFFER, offsetY, BattleshipTester.WINDOW_SIZE, BattleshipTester.WINDOW_SIZE);
+                drawShips.setBounds(BattleshipTester.WINDOW_BUFFER, BattleshipTester.WINDOW_BUFFER+offsetY, WINDOW_SIZE+BattleshipTester.WINDOW_BUFFER, WINDOW_SIZE+BattleshipTester.WINDOW_BUFFER);
 		return drawShips;
 	}
 	
@@ -127,9 +128,8 @@ public class Grid {
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					int x = j*BattleshipTester.WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
-					int y = i*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY;
-					
+					int x = j*WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
+					int y = i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER;
 					g.fillRect(x, y, LOCATION_WIDTH, LOCATION_WIDTH);
 				}
 			}
@@ -149,8 +149,8 @@ public class Grid {
 					} else {
 						g.setColor(Color.BLUE);
 					}
-					int x = j*BattleshipTester.WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
-					int y = i*BattleshipTester.WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER+offsetY;
+					int x = j*WINDOW_SIZE/NUM_COLS+BattleshipTester.WINDOW_BUFFER;
+					int y = i*WINDOW_SIZE/NUM_ROWS+BattleshipTester.WINDOW_BUFFER;
 					g.fillRect(x, y, LOCATION_WIDTH, LOCATION_WIDTH);
 				}
 			}
